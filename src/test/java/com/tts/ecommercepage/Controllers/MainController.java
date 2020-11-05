@@ -28,25 +28,38 @@ public class MainController {
         if (allProducts.isEmpty()){
             List<Product> newProducts = new ArrayList<Product>();
 
-            newProducts.add(new Product(4, (float) 1500.00, "Apple MacBook", "images/macbook.jpg"));
-            newProducts.add(new Product(3, (float) 1000.00, "Apple TV", "images/tv.jpg"));
-            newProducts.add(new Product(12, (float) 800.00, "New Iphone 8", "images/iphone8.jpg"));
-            newProducts.add(new Product(7, (float) 1500.00, "Apple New IPhone", "images/iphone.jpg"));
+            newProducts.add(new Product(4, (float) 1500.00, "Apple MacBook","MacBook Pro", "Apple", "computer", "images/macbook.jpg"));
+            newProducts.add(new Product(3, (float) 1000.00, "C7 ST Desktop Front Edit", "Desktop", "Dell", "computer",
+                    "images/tv.jpg"));
+
+            newProducts.add(new Product(12, (float) 800.00, "New iPhone 8, Silver", "IPhone 8", "Apple", "phone",
+                    "images/iphone8.jpg"));
+
+            newProducts.add(new Product(7, (float) 700.00, "New iPhone X", "IPhone", "Apple", "phone",
+                    "images/iphone.jpg"));
 
             for (Product product : newProducts) {
                 productService.save(product);
             }
         } else {
             System.out.println("You don't need more items!");
-
+            // for (Product product : productService.findAll()) {
+            //     productService.deleteById(product.getId());
+            // }
         }    
     }
     
-
+    @GetMapping("/deleteeverything")
+    public String delete(){
+        for (Product product : productService.findAll()) {
+                productService.deleteById(product.getId());
+            }
+        return "redirect:/";
+    }
 
     @GetMapping("/")
-    public String main() {
-        // addNew();
+    public String main(Model model) {
+        addNew();
         return "main";
     }
 
@@ -78,4 +91,5 @@ public class MainController {
         return "about";
     }
 
+    
 }

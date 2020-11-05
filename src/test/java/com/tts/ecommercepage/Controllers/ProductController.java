@@ -19,11 +19,18 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/product/{id}")
-    public String show(@PathVariable int id, Model model) {
+    public String show(@PathVariable Long id, Model model) {
         Product product = productService.findById(id);
-        model.addAttribute(product);
+        System.out.println("---------------------------------");
+        System.out.println(product);
+        model.addAttribute("product", product);
         return "product";
     }
+
+    // @GetMapping("/product")
+    // public String product() {
+    //     return "product";
+    // }
 
     // TODO: Either implement admin controls or remove these methods.
 

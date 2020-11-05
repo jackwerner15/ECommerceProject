@@ -1,6 +1,7 @@
 package com.tts.ecommercepage.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.tts.ecommercepage.Model.Product;
 import com.tts.ecommercepage.Repositories.ProductRepository;
@@ -17,8 +18,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product findById(long id) {
-        return productRepository.findById(id);
+    public Product findById(Long id) {
+       Optional<Product> optionalProduct = productRepository.findById(id);
+       Product product = null;
+
+       if(optionalProduct.isPresent()){
+        product = optionalProduct.get();
+        return product;
+       }else {
+        return product;
+       }
     }
 
     public List<String> findDistinctBrands() {
@@ -47,6 +56,5 @@ public class ProductService {
         else
             return productRepository.findByBrandAndCategory(brand, category);
     }
-    
 }
 

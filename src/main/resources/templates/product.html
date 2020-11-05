@@ -1,10 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-<head th:replace="fragments/fragment :: head"></head>
+<head th:replace="fragments/fragment :: head">
+<title>Product</title>
+</head>
 
 <body>
-    <div th:replace="fragments :: navbar"></div>
+    <div th:replace="fragments/fragment :: navbar"></div>
 
     <div class="container">
         <div class="card mb-3 large-product-card">

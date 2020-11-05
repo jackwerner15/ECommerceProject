@@ -10,13 +10,17 @@ import com.tts.ecommercepage.Service.ProductService;
 import com.tts.ecommercepage.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -27,6 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  
       @Autowired
       UserService userService;
+
+      @Value("${STRIPE_PUBLIC_KEY}")
+      private String stripePublicKey;
  
       @ModelAttribute("loggedInUser")
       public User loggedInUser() {
@@ -48,11 +55,15 @@ import org.springframework.web.bind.annotation.RequestParam;
       public List<Double> list() {
           return new ArrayList<>();
       }
- 
+
       @GetMapping("/cart")
-      public String showCart() {
-          return "cart";
-      }
+      public String showCart(Model model){ 
+        model.addAttribute("amount", 100);       
+        model.addAttribute("stripePublicKey", stripePublicKey);        
+      return "cart";   
+    }
+ 
+
  
       @PostMapping("/cart")
       public String addToCart(@RequestParam long id) {
@@ -70,10 +81,11 @@ import org.springframework.web.bind.annotation.RequestParam;
           return "cart";
       }
 
-      @DeleteMapping("/cart")
-      public String removeFromCart(@RequestParam long id) {
+      @GetMapping("/cart/delete/{id}")
+      public String removeFromCart(@PathVariable(value = "id") long id) {
           Product p = productService.findById(id);
-          setQuantity(p, 0);
+          p.setQuantity(0);
+          productService.save(p);
           return "cart";
       }
  

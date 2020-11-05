@@ -26,9 +26,8 @@ public class Product {
 
     }
 
-    public Product(Long id, int quantity, float price, String description, String name, String brand, String category,
+    public Product(int quantity, float price, String description, String name, String brand, String category,
             String image) {
-        this.id = id;
         this.quantity = quantity;
         this.price = price;
         this.description = description;
@@ -38,12 +37,7 @@ public class Product {
         this.image = image;
     }
 
-    public Product(int quantity, float price, String name, String image) {
-        this.quantity = quantity;
-        this.price = price;
-        this.name = name;
-        this.image = image;
-    }
+    
 
     
 
